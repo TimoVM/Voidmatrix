@@ -1,211 +1,95 @@
 {
-    "title": "32Bit Base Relative Writes",
-    "description": "",
-    "author": "RETIRE",
-    "supported": [
-        "diamond",
-        "pearl"
-    ],
-    "scripts": [
+  "title": "32Bit_Base_Relative_Writes",
+  "description": "Code that applies a 32Bit base relative write. 26 bytes long.",
+  "author": "TimoVM",
+  "supported": [
+    "diamond",
+    "pearl"
+  ],
+  "scripts": [
+    {
+      "color": [
+        62,
+        147,
+        63
+      ],
+      "title": "32Bit Base Relative Writes",
+      "documentation": "# 32Bit Base Relative Writes\n\nThis code accepts 32bit values as an input, then writes them to a specified offset to the base address.\n\nTo find the base offset of specific addresses, you can use the [Big Gen 4 Memory Map][RAM_MAP]. Enter the desired offset into the \"offset\" variable. Please note that all 32-bit writes are word-aligned, so offsets should always be numbers divisible by 4.\n\nThe value to be written should be entered into the \"value\" variable.\n\n## 16Bit and 8Bit writes\n\nTo modify this code to apply 16Bit or 8Bit base relative writes instead, modify the \"str r2, [r0, r1]\" instruction on line 4 of the assembly script.\n\n- For 16Bit writes, modify it to \"strh r2, [r0, r1]\". All writes will now be halfword aligned, so the offset variable should be even.\n- For 8Bit writes, modify it to \"strb r2, [r0, r1]\". All writes will now be arbitrary, so the offset variable can be any value.\n\n[RAM_MAP]: https://docs.google.com/document/d/13PyrVMX0YW8HjUHeXUgpRkmTJDnzjFDHWuqeMeMGUMk/edit?tab=t.0",
+      "variables": [
         {
-            "title": "32-bit, base-relative write using CmpAdrsAdrs",
-            "color": [
-                184,
-                119,
-                46
-            ],
-            "language": "English",
-            "code": [
-                {
-                    "type": "command",
-                    "name": "LoadAdrsValue",
-                    "parameters": [
-                        {
-                            "name": "address",
-                            "size": "u8",
-                            "value": "[FUN_LoadAdrsAdrs] + 0x11"
-                        },
-                        {
-                            "name": "value",
-                            "size": "u8",
-                            "value": "0x0"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "LoadAdrsValue",
-                    "parameters": [
-                        {
-                            "name": "address",
-                            "size": "u8",
-                            "value": "[FUN_LoadAdrsAdrs] + 0x13"
-                        },
-                        {
-                            "name": "value",
-                            "size": "u8",
-                            "value": "0x60"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "LoadAdrsValue",
-                    "parameters": [
-                        {
-                            "name": "address",
-                            "size": "u8",
-                            "value": "[FUN_CompAdrsAdrs] + 0x9"
-                        },
-                        {
-                            "name": "value",
-                            "size": "u8",
-                            "value": "0x1C"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "LoadAdrsAdrs",
-                    "parameters": [
-                        {
-                            "name": "tg",
-                            "size": "u8",
-                            "value": "[FUN_CompAdrsAdrs] + 0x10"
-                        },
-                        {
-                            "name": "src",
-                            "size": "u8",
-                            "value": "0x68094902"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "LoadAdrsAdrs",
-                    "parameters": [
-                        {
-                            "name": "tg",
-                            "size": "u8",
-                            "value": "[FUN_CompAdrsAdrs] + 0x14"
-                        },
-                        {
-                            "name": "src",
-                            "size": "u8",
-                            "value": "0xBD385060"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "LoadAdrsAdrs",
-                    "parameters": [
-                        {
-                            "name": "tg",
-                            "size": "u8",
-                            "value": "[FUN_CompAdrsAdrs] + 0x1E"
-                        },
-                        {
-                            "name": "src",
-                            "size": "u8",
-                            "value": "[base_address]"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "CmpAdrsAdrs",
-                    "parameters": [
-                        {
-                            "name": "address1",
-                            "size": "u8",
-                            "value": "[offset]"
-                        },
-                        {
-                            "name": "address2",
-                            "size": "u8",
-                            "value": "[value]"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "End",
-                    "parameters": []
-                }
-            ],
-            "variables": [
-                {
-                    "name": "offset",
-                    "default": "0xFFFFFFFF",
-                    "overrulingValues": {
-                        "ENG": "",
-                        "SP": "",
-                        "GER": "",
-                        "FR": "",
-                        "IT": "",
-                        "KOR": "",
-                        "JP5": "",
-                        "JP6": ""
-                    }
-                },
-                {
-                    "name": "value",
-                    "default": "0xFFFFFFFF",
-                    "overrulingValues": {
-                        "ENG": "",
-                        "SP": "",
-                        "GER": "",
-                        "FR": "",
-                        "IT": "",
-                        "KOR": "",
-                        "JP5": "",
-                        "JP6": ""
-                    }
-                },
-                {
-                    "name": "FUN_CompAdrsAdrs",
-                    "default": "",
-                    "overrulingValues": {
-                        "ENG": "0x02039BBC",
-                        "SP": "0x02039C2C",
-                        "GER": "0x02039C2C",
-                        "FR": "0x02039C2C",
-                        "IT": "0x02039C2C",
-                        "KOR": "",
-                        "JP5": "",
-                        "JP6": ""
-                    }
-                },
-                {
-                    "name": "FUN_LoadAdrsAdrs",
-                    "default": "",
-                    "overrulingValues": {
-                        "ENG": "0x2039ACC",
-                        "SP": "0x2039B3C",
-                        "GER": "0x2039B3C",
-                        "FR": "0x2039B3C",
-                        "IT": "0x2039B3C",
-                        "KOR": "",
-                        "JP5": "",
-                        "JP6": ""
-                    }
-                },
-                {
-                    "name": "base_address",
-                    "default": "0x02108818",
-                    "overrulingValues": {
-                        "ENG": "0x02106FC0",
-                        "SP": "0x02107160",
-                        "GER": "0x02107100",
-                        "FR": "0x02107140",
-                        "IT": "0x021070A0",
-                        "KOR": "0x021045C0",
-                        "JP5": "",
-                        "JP6": ""
-                    }
-                }
-            ]
+          "name": "FUN_EvCmdCmpRegReg",
+          "default": "0x02039AF8",
+          "overrulingValues": {
+            "ENG": "0x02039AF8",
+            "SP": "0x02039B40",
+            "GER": "0x02039B40",
+            "FR": "0x02039B40",
+            "IT": "0x02039B40",
+            "KOR": "0x02039F68",
+            "JP5": "0x020423B0",
+            "JP6": "0x02042454"
+          }
+        },
+        {
+          "name": "offset",
+          "default": "0x288",
+          "overrulingValues": {
+            "ENG": "",
+            "SP": "",
+            "GER": "",
+            "FR": "",
+            "IT": "",
+            "KOR": "",
+            "JP5": "",
+            "JP6": ""
+          }
+        },
+        {
+          "name": "value",
+          "default": "0x0",
+          "overrulingValues": {
+            "ENG": "",
+            "SP": "",
+            "GER": "",
+            "FR": "",
+            "IT": "",
+            "KOR": "",
+            "JP5": "",
+            "JP6": ""
+          }
         }
-    ]
+      ],
+      "code": [
+        {
+          "type": "command",
+          "name": "LoadAdrsValue",
+          "parameters": [
+            {
+              "name": "address",
+              "size": "u32",
+              "value": "[FUN_EvCmdCmpRegReg] + 0xB"
+            },
+            {
+              "name": "value",
+              "size": "u8",
+              "value": "0x47"
+            }
+          ]
+        },
+        {
+          "type": "memory_editor",
+          "size": "0x3",
+          "memory": [
+            "0x0B",
+            "0x00",
+            "0x00"
+          ]
+        },
+        {
+          "type": "assembly",
+          "assembly": "code:\nadd r0, #0x9                    @ r0 now points to the start of data\nldmia r0!, {r1, r2}\nstr r2, [r0, r1]                @ r0 + r1 points to target address\npop {r4, pc}\n\ndata:\n.word [offset] - 0x13A4         @ r0 points to base + 0x13A4 after ldmia, so take that into account\n.word [value]"
+        }
+      ]
+    }
+  ]
 }
