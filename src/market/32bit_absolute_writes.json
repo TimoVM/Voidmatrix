@@ -1,0 +1,95 @@
+{
+  "title": "32bit_absolute_writes",
+  "description": "Alternative to 32Bit Write LoadAdrsAdrs code, coming in at equal length.",
+  "author": "TimoVM",
+  "supported": [
+    "diamond",
+    "pearl"
+  ],
+  "scripts": [
+    {
+      "color": [
+        62,
+        147,
+        63
+      ],
+      "title": "32Bit Absolute Writes",
+      "documentation": "# 32Bit Absolute Writes\n\nThis code accepts 32bit values as an input, then writes them to a specified absolute address. This code is **not suited to write to base-relative addresses**, use the alternative `32Bit Base Relative Writes` code for this purpose instead.\n\nPlease note that all 32-bit writes are word-aligned, so addresses should always be divisible by 4.\n\nThe value to be written should be entered into the \"value\" variable.\n\n## 16Bit and 8Bit writes\n\nTo modify this code to apply 16Bit or 8Bit absolute writes instead, modify the \"str r2, [r1]\" instruction on line 4 of the assembly script.\n\n- For 16Bit writes, modify it to \"strh r2, [r1]\". All writes will now be halfword aligned, so the address should be even.\n- For 8Bit writes, modify it to \"strb r2, [r1]\". All writes will now be arbitrary, so the address can be any value.\n\n## Technical details\n\nThe first LoadAdrsValue command alters the CmpRegReg command. When CmpRegReg (command 0x000B) is executed, the game will now instead branch and exchange to the address of the first CmpRegReg argument, contained in register r0. Since this argument is set up at uneven address, this causes execution in Thumb. \n\nThe following assembly code then loads in both the address and 32Bit value, and writes this value to the address.\n\nTo ensure a safe return, a pop {r4, pc} instruction needs to be used, to match the push {r4, lr} instruction used at the start of the command.\n\n[RAM_MAP]: https://docs.google.com/document/d/13PyrVMX0YW8HjUHeXUgpRkmTJDnzjFDHWuqeMeMGUMk/edit?tab=t.0",
+      "variables": [
+        {
+          "name": "FUN_EvCmdCmpRegReg",
+          "default": "0x02039AF8",
+          "overrulingValues": {
+            "ENG": "0x02039AF8",
+            "SP": "0x02039B40",
+            "GER": "0x02039B40",
+            "FR": "0x02039B40",
+            "IT": "0x02039B40",
+            "KOR": "0x02039F68",
+            "JP5": "0x020423B0",
+            "JP6": "0x02042454"
+          }
+        },
+        {
+          "name": "address",
+          "default": "0xFFFFFFFF",
+          "overrulingValues": {
+            "ENG": "",
+            "SP": "",
+            "GER": "",
+            "FR": "",
+            "IT": "",
+            "KOR": "",
+            "JP5": "",
+            "JP6": ""
+          }
+        },
+        {
+          "name": "value",
+          "default": "0xFFFFFFFF",
+          "overrulingValues": {
+            "ENG": "",
+            "SP": "",
+            "GER": "",
+            "FR": "",
+            "IT": "",
+            "KOR": "",
+            "JP5": "",
+            "JP6": ""
+          }
+        }
+      ],
+      "code": [
+        {
+          "type": "command",
+          "name": "LoadAdrsValue",
+          "parameters": [
+            {
+              "name": "address",
+              "size": "u32",
+              "value": "[FUN_EvCmdCmpRegReg] + 0xB"
+            },
+            {
+              "name": "value",
+              "size": "u8",
+              "value": "0x47"
+            }
+          ]
+        },
+        {
+          "type": "memory_editor",
+          "size": "0x3",
+          "memory": [
+            "0x0B",
+            "0x00",
+            "0x00"
+          ]
+        },
+        {
+          "type": "assembly",
+          "assembly": "code:\nadd r0, #0x9                    @ r0 now points to the start of data\nldmia r0!, {r1, r2}\nstr r2, [r1]\npop {r4, pc}\n\ndata:\n.word [address]\n.word [value]"
+        }
+      ]
+    }
+  ]
+}
