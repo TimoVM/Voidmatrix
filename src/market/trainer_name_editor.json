@@ -1,132 +1,159 @@
 {
-    "title": "Trainer Name Editor",
-    "description": "",
-    "author": "RETIRE",
-    "supported": [
-        "diamond",
-        "pearl"
-    ],
-    "scripts": [
+  "title": "original_trainer_name_editor",
+  "description": "This code allows you to change the trainer name of a party pokémon. It should be compatible with all languages, but a separate code for Japanese could be developed in the future due to not needing to adjust the trainer name in those versions.",
+  "author": "RETIRE",
+  "supported": [
+    "diamond",
+    "pearl"
+  ],
+  "scripts": [
+    {
+      "color": [
+        220,
+        111,
+        155
+      ],
+      "title": "",
+      "documentation": "# Original Trainer Name Editor\n\nThis script hacks the command that allows you to edit a Pokémon's nickname, so it instead edits the trainer name.To use this script, simply specify the party slot (starting from 0), of the Pokémon who's trainer name you want to change. During the script running it will still say that you're editing its nickname, but you'll notice the amount of characters you can edit is lowered to 7.\n\nSince this edits the SetPokeNickName command, you'll have to save reset to use it for its intended purpose of editing nicknames again.\n\n## Technical Details\n\nThis is achieved through two simple edits to the command. The first one lowers the character count from 10 to 7, which is the maximum for trainers.\nThe second changes the targeted pokémon parameter from the nickname field to the trainer field, so it writes the characters there instead.\n\nWipeFadeStart is called after the code to reset the screen after the code. Otherwise the screen remains black and it can be annoying to open a menu to graphic reload.\n\n",
+      "variables": [
         {
-            "title": "",
-            "color": [
-                220,
-                111,
-                155
-            ],
-            "language": "English",
-            "code": [
-                {
-                    "type": "command",
-                    "name": "LoadAdrsValue",
-                    "parameters": [
-                        {
-                            "name": "address",
-                            "size": "u8",
-                            "value": "[FUN_SetPokeName] + 0x60"
-                        },
-                        {
-                            "name": "value",
-                            "size": "u8",
-                            "value": "0x7"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "LoadAdrsValue",
-                    "parameters": [
-                        {
-                            "name": "address",
-                            "size": "u8",
-                            "value": "[FUN_NameInSet] + 0x52"
-                        },
-                        {
-                            "name": "value",
-                            "size": "u8",
-                            "value": "0x8F"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "NameInPoke",
-                    "parameters": [
-                        {
-                            "name": "party index",
-                            "size": "u8",
-                            "value": ""
-                        },
-                        {
-                            "name": "work",
-                            "size": "u8",
-                            "value": "0x4000"
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "WipeFadeStart",
-                    "parameters": [
-                        {
-                            "name": "div",
-                            "size": "u8",
-                            "value": ""
-                        },
-                        {
-                            "name": "syn",
-                            "size": "u8",
-                            "value": ""
-                        },
-                        {
-                            "name": "type",
-                            "size": "u8",
-                            "value": "1"
-                        },
-                        {
-                            "name": "col",
-                            "size": "u8",
-                            "value": ""
-                        }
-                    ]
-                },
-                {
-                    "type": "command",
-                    "name": "End",
-                    "parameters": []
-                }
-            ],
-            "variables": [
-                {
-                    "name": "FUN_SetPokeName",
-                    "default": "",
-                    "overrulingValues": {
-                        "ENG": "0x203c520",
-                        "SP": "",
-                        "GER": "",
-                        "FR": "",
-                        "IT": "",
-                        "KOR": "",
-                        "JP5": "",
-                        "JP6": ""
-                    }
-                },
-                {
-                    "name": "FUN_NameInSet",
-                    "default": "",
-                    "overrulingValues": {
-                        "ENG": "0x0203854c",
-                        "SP": "",
-                        "GER": "",
-                        "FR": "",
-                        "IT": "",
-                        "KOR": "",
-                        "JP5": "",
-                        "JP6": ""
-                    }
-                }
-            ],
-            "documentation": "# Pokemon Trainer Name Editor\n\nThis script hacks the command that allows you to edit a Pokémon's nickname, so it instead edits the trainer name.To use this script, simply specify the party slot (starting from 0), of the Pokémon who's trainer name you want to change. During the script running it will still say that you're editing it's nickname, but you'll notice the amount of characters you can edit is lowered to 7.\n\nSince this edits the SetPokeNickName command you have to save reset to use it for it's intended purpose again, editing nicknames.\n\n### Technical Details\nThis is achieved through two simple edits to the command. The first one lowers the character count from 10 to 7, which is the maximum for trainers.\nThe second changes the targetted pokemon parameter from the nickname field to the trainer field, so it writes the characters there instead.\n\nWipeFadeStart is called after the code to reset the screen after the code. Otherwise the screen remains black and it can be annoying to open a menu to graphic reload.\n\n"
+          "name": "FUN_SetPokeName",
+          "default": "0x0203C520",
+          "overrulingValues": {
+            "ENG": "0x0203C520",
+            "SP": "0x0203C568",
+            "GER": "0x0203C568",
+            "FR": "0x0203C568",
+            "IT": "0x0203C568",
+            "KOR": "0x0203C98C",
+            "JP5": "0x0203F78C",
+            "JP6": "0x0203F830"
+          }
+        },
+        {
+          "name": "FUN_NameInSet",
+          "default": "0x0203854C",
+          "overrulingValues": {
+            "ENG": "0x0203854C",
+            "SP": "0x0203854C",
+            "GER": "0x0203854C",
+            "FR": "0x0203854C",
+            "IT": "0x0203854C",
+            "KOR": "0x020389B0",
+            "JP5": "0x02039F4C",
+            "JP6": "0x02039FF0"
+          }
+        },
+        {
+          "name": "NameParamOffset",
+          "default": "0x52",
+          "overrulingValues": {
+            "ENG": "0x52",
+            "SP": "0x52",
+            "GER": "0x52",
+            "FR": "0x52",
+            "IT": "0x52",
+            "KOR": "0x52",
+            "JP5": "0x54",
+            "JP6": "0x54"
+          }
+        },
+        {
+          "name": "TrainerNameLength",
+          "default": "0x7",
+          "overrulingValues": {
+            "ENG": "0x7",
+            "SP": "0x7",
+            "GER": "0x7",
+            "FR": "0x7",
+            "IT": "0x7",
+            "KOR": "0x7",
+            "JP5": "0x5",
+            "JP6": "0x5"
+          }
         }
-    ]
+      ],
+      "code": [
+        {
+          "type": "command",
+          "name": "LoadAdrsValue",
+          "parameters": [
+            {
+              "name": "address",
+              "size": "u32",
+              "value": "[FUN_SetPokeName] + 0x60"
+            },
+            {
+              "name": "value",
+              "size": "u8",
+              "value": "[TrainerNameLength]"
+            }
+          ]
+        },
+        {
+          "type": "command",
+          "name": "LoadAdrsValue",
+          "parameters": [
+            {
+              "name": "address",
+              "size": "u32",
+              "value": "[FUN_NameInSet] + [NameParamOffset]"
+            },
+            {
+              "name": "value",
+              "size": "u8",
+              "value": "0x8F"
+            }
+          ]
+        },
+        {
+          "type": "command",
+          "name": "NameInPoke",
+          "parameters": [
+            {
+              "name": "party index",
+              "size": "u16",
+              "value": ""
+            },
+            {
+              "name": "work",
+              "size": "u16",
+              "value": "0x4000"
+            }
+          ]
+        },
+        {
+          "type": "command",
+          "name": "WipeFadeStart",
+          "parameters": [
+            {
+              "name": "div",
+              "size": "u16",
+              "value": ""
+            },
+            {
+              "name": "syn",
+              "size": "u16",
+              "value": ""
+            },
+            {
+              "name": "type",
+              "size": "u16",
+              "value": "1"
+            },
+            {
+              "name": "col",
+              "size": "u16",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "command",
+          "name": "End",
+          "parameters": []
+        }
+      ]
+    }
+  ]
 }
