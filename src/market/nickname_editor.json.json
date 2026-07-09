@@ -1,0 +1,71 @@
+{
+  "title": "nickname_editor.json",
+  "description": "Standard script, accompanying the Original Trainer Name Editor script.",
+  "author": "TimoVM",
+  "supported": [
+    "diamond",
+    "pearl",
+    "platinum"
+  ],
+  "scripts": [
+    {
+      "color": [
+        220,
+        111,
+        155
+      ],
+      "title": "Nickname Editor",
+      "documentation": "# Nickname Editor\n\nThis script allows you to edit a Pokémon's nickname.To use this script, simply specify the party slot (starting from 0), of the Pokémon who's trainer name you want to change.\n\n## Technical Details\n\nNameInPoke is the intended script command to change a pokémon's nickname. WipeFadeStart is called after the code to reset the screen after the code. Otherwise the screen remains black and it can be annoying to open a menu to graphic reload.",
+      "variables": [],
+      "code": [
+        {
+          "type": "command",
+          "name": "NameInPoke",
+          "parameters": [
+            {
+              "name": "party index",
+              "size": "u16",
+              "value": ""
+            },
+            {
+              "name": "work",
+              "size": "u16",
+              "value": "0x4000"
+            }
+          ]
+        },
+        {
+          "type": "command",
+          "name": "WipeFadeStart",
+          "parameters": [
+            {
+              "name": "div",
+              "size": "u16",
+              "value": ""
+            },
+            {
+              "name": "syn",
+              "size": "u16",
+              "value": ""
+            },
+            {
+              "name": "type",
+              "size": "u16",
+              "value": "1"
+            },
+            {
+              "name": "col",
+              "size": "u16",
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "command",
+          "name": "End",
+          "parameters": []
+        }
+      ]
+    }
+  ]
+}
